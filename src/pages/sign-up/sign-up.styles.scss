@@ -1,0 +1,56 @@
+.sign-up-page {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: rgba(128, 128, 128, 0.185);
+  form {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    height: 70%;
+    border-radius: 0.5%;
+    h4 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: normal;
+      font-family: sans-serif;
+      text-transform: capitalize;
+    }
+
+    input {
+      width: 70%;
+      height: 3rem;
+      margin: 0.6rem 0;
+      outline: none;
+      padding-left: 1rem;
+    }
+
+    .submit-button {
+      width: 40%;
+      outline: none;
+      border: 1px solid rgba(0, 0, 0, 0.603);
+      background-color: rgba(0, 0, 0, 0.603);
+      margin-top: 3rem;
+      height: 3rem;
+      color: white;
+      text-transform: uppercase;
+      font-size: 1rem;
+      cursor: pointer;
+      &:hover {
+        background-color: white;
+        color: #101010;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    form {
+      width: 90%;
+      height: 70%;
+      border-radius: 0.5%;
+    }
+  }
+}

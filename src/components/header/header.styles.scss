@@ -1,0 +1,55 @@
+.header {
+  height: 10vh;
+  padding: 0 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    column-gap: 0.5rem;
+
+    h3 {
+      font-size: 2rem;
+    }
+    p {
+      font-size: 1.2rem;
+    }
+  }
+
+  .buttons {
+    list-style-type: none;
+    display: flex;
+    column-gap: 0.8rem;
+    li {
+      button {
+        font-size: 1.2rem;
+        padding: 0.4rem;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .write {
+        background-color: gray;
+        border: 1px solid #101010;
+        color: whitesmoke;
+        border-radius: 12%;
+      }
+
+      .your-articles {
+        background-color: white;
+        border: 1px solid #101010;
+        color: #101010;
+        border-radius: 4%;
+      }
+
+      .logout {
+        background-color: white;
+        border: unset;
+        color: #101010;
+      }
+    }
+  }
+}
