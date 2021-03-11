@@ -16,6 +16,8 @@ func main() {
 
 	router.HandleFunc("/add-new-user/{userId}", api.AddNewUser).Methods("POST")
 
+	router.HandleFunc("/get-user-data/{userId}", api.GetUserData).Methods("GET")
+
 	router.HandleFunc("/add-article/{userId}/", api.AddArticle).Methods("POST")
 	router.HandleFunc("/update-article/{userId}/{articleIndex}", api.UpdateArticle).Methods("UPDATE")
 	router.HandleFunc("/remove-article/{userId}/{articleIndex}", api.RemoveArticle).Methods("DELETE")
