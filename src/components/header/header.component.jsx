@@ -15,7 +15,11 @@ const Header = () => {
                         location.pathname === "/create-article" ? (
                             <button className="write">Publish</button>
                         ):(
-                            <button className="write">Write</button>
+                            location.pathname === "/update-article" ? (
+                                <button className="write">Update</button>
+                            ):(
+                                <button className="write">Write</button>
+                            )
                         )
                     }
                 </li>

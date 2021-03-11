@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Header from "../../components/header/header.component";
 import "./create-article.styles.scss";
 
@@ -6,6 +6,24 @@ const CreateArticlePage = () => {
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const uploadRef = useRef()
+    const [imageSrc, setImageSrc] = useState()
+
+    const handleFile = () => {
+        if (uploadRef.current.files && uploadRef.current.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              setImageSrc(event.target.result)
+            }
+            
+            reader.readAsDataURL(uploadRef.current.files[0]);   
+        }
+    }
+    const handleUpload = () => {
+        uploadRef.current.click()
+        setTimeout(()=>{
+            handleFile()
+        }, 2000)
+    }
     return (
         <>
             <Header />
@@ -18,7 +36,7 @@ const CreateArticlePage = () => {
                 />
                 <label>Description</label>
                 <textarea 
-                    rows="30"
+                    rows="14"
                     value={description}
                     onChange={(event)=> setDescription(event.target.value)}
                 ></textarea>
@@ -26,12 +44,19 @@ const CreateArticlePage = () => {
                     <input
                         type="file"
                         ref={uploadRef}
+                        onChange={handleFile}
+                        multiple={false}
                     />
-                    <button onClick={()=>uploadRef.current.click() }> Upload Image</button>
+                    {/* <button onClick={handleUpload}> Upload Image</button> */}
+                </div>
+                <div>
+                    {
+                        imageSrc ? ( <img src={imageSrc} alt="" />) : null
+                    }
                 </div>
             </form>
         </>
     )
 }
 
-export default CreateArticlePage
+export default CreateArticlePage;
