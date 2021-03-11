@@ -28,7 +28,7 @@ func main() {
 	router.HandleFunc("/get-popular-articles", api.GetPopularArticles).Methods("GET")
 
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3001", "https://fatmug.vercel.app/"},
+		AllowedOrigins: []string{"http://localhost:3000", "https://fatmug.vercel.app/"},
 	})
 
 	port := os.Getenv("PORT")
