@@ -1,5 +1,5 @@
 import "./edit-article.styles.scss";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Header from "../../components/header/header.component";
 
 const EditArticlePage = () => {

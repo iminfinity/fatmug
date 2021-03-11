@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Header from "../../components/header/header.component";
 import "./create-article.styles.scss";
 
@@ -17,12 +17,6 @@ const CreateArticlePage = () => {
             
             reader.readAsDataURL(uploadRef.current.files[0]);   
         }
-    }
-    const handleUpload = () => {
-        uploadRef.current.click()
-        setTimeout(()=>{
-            handleFile()
-        }, 2000)
     }
     return (
         <>
