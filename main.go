@@ -26,7 +26,7 @@ func main() {
 	router.HandleFunc("/get-popular-articles", api.GetPopularArticles).Methods("GET")
 
 	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", "https://fatmug.vercel.app/"},
+		AllowedOrigins: []string{"http://localhost:3001", "https://fatmug.vercel.app/"},
 	})
 
 	port := os.Getenv("PORT")
@@ -34,8 +34,10 @@ func main() {
 		fmt.Println("$PORT not set")
 	}
 
+	fmt.Println("GO server running")
 	err := http.ListenAndServe(":"+port, corsHandler.Handler(router))
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }

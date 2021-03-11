@@ -22,10 +22,11 @@ func AddNewUser(rw http.ResponseWriter, r *http.Request) {
 	}
 	newUser.UserID = params["userId"]
 	_, err := usersCollection.InsertOne(ctx, newUser)
-
+	fmt.Println(newUser)
 	if err != nil {
 		http.Error(rw, "Error saving user", http.StatusInternalServerError)
 		fmt.Println("Error saving user")
+		fmt.Println(err)
 		return
 	}
 

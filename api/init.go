@@ -39,4 +39,6 @@ func init() {
 	fatmugDatabase = client.Database("fatmug")
 	usersCollection = fatmugDatabase.Collection("users")
 	articlesCollection = fatmugDatabase.Collection("articles")
+
+	fmt.Println("MongoDb running")
 }
