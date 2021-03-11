@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.scss";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 
 import HomePage from "./pages/home/home";
 import SignInPage from "./pages/sign-in/sign-in";

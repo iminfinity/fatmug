@@ -1,18 +1,28 @@
 import "./sign-in.styles.scss";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 import {ReactComponent as Key} from "../../assets/key.svg";
 import {ReactComponent as User} from "../../assets/user.svg";
 
+import {signin} from "../../firabase/utils";
+import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
 const SignInPage = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const history = useHistory()
+    const alert = useAlert();
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        alert("submitted")
+        signin(email, password)
+        .then(() => {
+            history.push("/")
+        })
+        .catch((error) => alert.show(error.message));
     }
+
     return (
         <main className="sign-in-page"> 
             <form onSubmit={handleSubmit}>

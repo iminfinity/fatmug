@@ -1,16 +1,36 @@
 import "./sign-up.styles.scss";
 
 import {useState} from "react";
-
+import {signup, auth} from "../../firabase/utils";
+import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
+import axios from "axios";
 const SignUpPage = () => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const history = useHistory()
+    const alert = useAlert()
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        alert("submitted")
+        try {
+            await signup(email, password);
+            alert.show("Sign in success");
+            auth().onAuthStateChanged((user)=>{
+                if (user){
+                    axios.post(`https://floating-bayou-25144.herokuapp.com/add-new-user/${user.uid}`,{
+                        firstName,
+                        lastName
+                    })
+                }
+            })
+            history.push("/")
+          } catch (error) {
+            alert.error("Error signing in, try again")
+            setPassword("")
+        }
     }
     return (
         <main className="sign-up-page"> 
@@ -27,7 +47,7 @@ const SignUpPage = () => {
                 type="text" 
                 value={lastName}
                 onChange={(event)=> setLastName(event.target.value)} 
-                placeholder="Password"               
+                placeholder="Last Name"               
                 required
             />
             <input 
