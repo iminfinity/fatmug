@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/iminfinity/fatmug/backend/models"
+	"github.com/iminfinity/fatmug-backend/models"
 )
 
 // AddNewUser func

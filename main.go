@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/iminfinity/fatmug/backend/api"
+	"github.com/iminfinity/fatmug-backend/api"
 	"github.com/rs/cors"
 )
 

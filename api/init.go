@@ -20,7 +20,6 @@ var err error
 
 func init() {
 	mongoURI := os.Getenv("FATMUG_MONGO_URI")
-	fmt.Println(mongoURI)
 	client, err = mongo.NewClient(options.Client().ApplyURI(mongoURI))
 	if err != nil {
 		fmt.Println("Error Connecting to MongoDB Atlas")
