@@ -118,9 +118,12 @@ func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var articles []models.Article
-	articles = user.Articles
-	index := utils.FindIndexFromId(articleId, articles)
-	articles = append(articles[:index], articles[index+1:]...)
+
+	if len(user.Articles) >= 1 {
+		articles = user.Articles
+		index := utils.FindIndexFromId(articleId, articles)
+		articles = append(articles[:index], articles[index+1:]...)
+	}
 	user.Articles = articles
 	_, err = usersCollection.UpdateOne(ctx, bson.M{"userId": userId}, bson.M{"$set": user})
 	if err != nil {
