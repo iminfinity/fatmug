@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/iminfinity/fatmug-backend/models"
+	"github.com/iminfinity/fatmug-backend/utils"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -69,9 +69,8 @@ func AddArticle(rw http.ResponseWriter, r *http.Request) {
 func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Add("content-type", "application/json")
 	params := mux.Vars(r)
-	userId, articleIndex := params["userId"], params["articleIndex"]
+	userId, articleId := params["userId"], params["articleId"]
 	var updatedArticle models.Article
-
 	var user models.User
 
 	err = usersCollection.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
@@ -80,18 +79,24 @@ func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error getting user")
 		return
 	}
-	index, err := strconv.Atoi(articleIndex)
+
+	err = json.NewDecoder(r.Body).Decode(&updatedArticle)
 	if err != nil {
-		http.Error(rw, "artcile index must be an integer", http.StatusInternalServerError)
-		fmt.Println("artcile index must be an integer")
+		http.Error(rw, "Error decoding request", http.StatusInternalServerError)
+		fmt.Println("Error decoding request")
 		return
 	}
-	user.Articles[index] = updatedArticle
 
+	var articles []models.Article
+	articles = user.Articles
+	index := utils.FindIndexFromId(articleId, articles)
+	articles[index] = updatedArticle
+
+	user.Articles = articles
 	_, err = usersCollection.UpdateOne(ctx, bson.M{"userId": userId}, bson.M{"$set": user})
 	if err != nil {
-		http.Error(rw, "Error updaing user", http.StatusInternalServerError)
-		fmt.Println("Error updaing user")
+		http.Error(rw, "Error updating user", http.StatusInternalServerError)
+		fmt.Println("Error updating user")
 		return
 	}
 
@@ -103,7 +108,7 @@ func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Add("content-type", "application/json")
 	params := mux.Vars(r)
-	userId, articleIndex := params["userId"], params["articleIndex"]
+	userId, articleId := params["userId"], params["articleId"]
 	var user models.User
 	err = usersCollection.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
 	if err != nil {
@@ -111,17 +116,15 @@ func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error getting user")
 		return
 	}
-	index, err := strconv.Atoi(articleIndex)
-	if err != nil {
-		http.Error(rw, "artcile index must be an integer", http.StatusInternalServerError)
-		fmt.Println("artcile index must be an integer")
-		return
-	}
+	var articles []models.Article
+	articles = user.Articles
+	index := utils.FindIndexFromId(articleId, articles)
 	user.Articles = append(user.Articles[:index], user.Articles[index+1:]...)
+
 	_, err = usersCollection.UpdateOne(ctx, bson.M{"userId": userId}, bson.M{"$set": user})
 	if err != nil {
-		http.Error(rw, "Error updaing user", http.StatusInternalServerError)
-		fmt.Println("Error updaing user")
+		http.Error(rw, "Error updating user", http.StatusInternalServerError)
+		fmt.Println("Error updating user")
 		return
 	}
 
