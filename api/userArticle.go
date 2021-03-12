@@ -90,7 +90,8 @@ func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 	var articles []models.Article
 	articles = user.Articles
 	index := utils.FindIndexFromId(articleId, articles)
-	articles[index] = updatedArticle
+	articles[index].Heading = updatedArticle.Heading
+	articles[index].Content = updatedArticle.Content
 
 	user.Articles = articles
 	_, err = usersCollection.UpdateOne(ctx, bson.M{"userId": userId}, bson.M{"$set": user})
