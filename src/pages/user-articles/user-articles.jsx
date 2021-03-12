@@ -1,10 +1,31 @@
 import "./user-articles.styles.scss";
+import {useUserData} from "../../data/user.context";
+import Article from "./article/article.component";
+import Header from "../../components/header/header.component";
 
 const UserArticlesPage = () => {
+    const {articles} = useUserData()
+    console.log(articles)
+    
     return (
+        <>
+        <Header />
         <main className="user-articles-page"> 
-            <h1>UserArticles Page</h1>
+            <h1>Your Submitted Article</h1>
+            {  
+                articles ? (
+                  articles.map((article, index)=>(
+                    <Article article={article} key={index}  index={index}/>
+                ))
+                ) : (
+                    <h3>
+                        No articles written
+                    </h3>
+                )
+              
+            }
         </main>
+        </>
     )
 }
 

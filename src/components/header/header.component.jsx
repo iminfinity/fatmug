@@ -1,26 +1,34 @@
 import "./header.styles.scss";
 import {useLocation, useHistory} from "react-router-dom";
-import { useEffect, useState } from "react";
-import { auth } from "../../firabase/utils";
+import { useUserData } from "../../data/user.context";
 
-const Header = () => {
-    const [signedIn, setSignedIn] = useState(false);
-    
+const Header = ({effect, buttonText}) => {
+    const {firstName, lastName,signedIn} = useUserData()
     const location = useLocation()
     const history = useHistory()
     
-    useEffect(()=>{
-        auth().onAuthStateChanged((user)=>{
-            if (user) setSignedIn(true)
-        })
-    })
+    const showButton = () => {
+        switch(location.pathname){
+            case "/create-article": return (
+                    <button className="write" onClick={effect}>{buttonText}</button>
+                )
+            case "/":
+            case "/my-articles": return (
+                <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
+            )
+            default: return (
+                <button className="write" onClick={effect}>{buttonText}</button>
+            )   
+        }
+    }
+
     return (
         <header className="header">
             <div className="logo-container">
-               <h3>Fatmug |</h3>
+               <h3 onClick={()=>history.push("/")}>Fatmug |</h3>
                {
                    signedIn ? (
-                     <p>Greetings! UserName</p>  
+                     <p>Greetings! {firstName} {lastName}</p>  
                    ): null
                }
                 
@@ -28,19 +36,20 @@ const Header = () => {
             <ul className="buttons">
                 <li>
                     {
-                        location.pathname === "/create-article" ? (
-                            <button className="write">Publish</button>
-                        ):(
-                            location.pathname === "/update-article" ? (
-                                <button className="write">Update</button>
-                            ):(
-                                <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
-                            )
-                        )
+                        showButton()
+                        // location.pathname === "/create-article" ? (
+                        //     <button className="write" onClick={effect}>{buttonText}</button>
+                        // ):(
+                        //     location.pathname === "/" ? (
+                        //         <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
+                        //     ):(
+                        //         <button className="write" onClick={effect}>{buttonText}</button>
+                        //     )
+                        // )
                     }
                 </li>
                 <li>
-                    <button className="your-articles">Your Articles</button>
+                    <button className="your-articles" onClick={()=>history.push("/my-articles")}>Your Articles</button>
                 </li>
                 <li>
                     {

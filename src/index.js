@@ -9,9 +9,10 @@ import { BrowserRouter } from "react-router-dom";
 
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import UserContextProvider from "./data/user.context";
 
 const options = {
-  position: positions.BOTTOM_LEFT,
+  position: positions.BOTTOM_RIGHT,
   timeout: 5000,
   offset: "30px",
   transition: transitions.SCALE,
@@ -21,7 +22,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AlertProvider template={AlertTemplate} {...options}>
-        <App />
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
       </AlertProvider>
     </BrowserRouter>
   </React.StrictMode>,

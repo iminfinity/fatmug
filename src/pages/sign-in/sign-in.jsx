@@ -49,7 +49,7 @@ const SignInPage = () => {
        
                 <div className="buttons-container">
                     <button>Forgot Password?</button>
-                    <button>Not a member yet? Sign up</button>
+                    <button onClick={()=> history.push("/sign-up")}>Not a member yet? Sign up</button>
                 </div>
                 <button type="submit" className="submit-button">Sign in</button>
             </form>

@@ -1,13 +1,21 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router";
 import Header from "../../components/header/header.component";
+import { useUserData } from "../../data/user.context";
 import "./create-article.styles.scss";
-
+import {v4 as uuidv4} from "uuid";
+import { useAlert } from "react-alert";
+import FormInput from "../../components/form-input/form-input.component";
+import ImageUploader from "../../components/image-upload/image-upload.component";
 const CreateArticlePage = () => {
-    const [title, setTitle] = useState()
-    const [description, setDescription] = useState()
+    const {addNewArticle, uploadImage, articles} = useUserData()
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
     const uploadRef = useRef()
-    const [imageSrc, setImageSrc] = useState()
-
+    const [imageSrc, setImageSrc] = useState("")
+    const location = useLocation()
+    const alert = useAlert()
+ 
     const handleFile = () => {
         if (uploadRef.current.files && uploadRef.current.files[0]) {
             const reader = new FileReader();
@@ -18,36 +26,30 @@ const CreateArticlePage = () => {
             reader.readAsDataURL(uploadRef.current.files[0]);   
         }
     }
+    const addArticle = () => {
+        const articleId = uuidv4()
+        uploadImage(uploadRef.current.files[0], articleId)
+        addNewArticle(title,description,articleId)
+        setDescription("")
+        setTitle("")
+        setImageSrc("")
+        alert.show("New article added")
+    }
     return (
         <>
-            <Header />
+            <Header  effect={addArticle} buttonText="publish" />
             <form className="create-article-form">
-                <label>Title</label>
-                <input 
-                    type="text"
-                    value={title}
-                    onChange={(event)=> setTitle(event.target.value)}
+                <FormInput 
+                    title={title}
+                    description={description} 
+                    setDescription={setDescription} 
+                    setTitle={setTitle} 
                 />
-                <label>Description</label>
-                <textarea 
-                    rows="14"
-                    value={description}
-                    onChange={(event)=> setDescription(event.target.value)}
-                ></textarea>
-                <div>
-                    <input
-                        type="file"
-                        ref={uploadRef}
-                        onChange={handleFile}
-                        multiple={false}
-                    />
-                    {/* <button onClick={handleUpload}> Upload Image</button> */}
-                </div>
-                <div>
-                    {
-                        imageSrc ? ( <img src={imageSrc} alt="" />) : null
-                    }
-                </div>
+                <ImageUploader  
+                    uploadRef={uploadRef} 
+                    handleFile={handleFile} 
+                    imageSrc={imageSrc}
+                />
             </form>
         </>
     )

@@ -11,14 +11,26 @@ import EditArticlePage from "./pages/edit-article/edit-article";
 import UserArticlesPage from "./pages/user-articles/user-articles";
 import ErrorPage from "./pages/error/error";
 
+import { auth } from "./firabase/utils";
+
 function App() {
+  const history = useHistory();
+  useEffect(() => {
+    auth().onAuthStateChanged((user) => {
+      if (!user) history.push("/sign-in");
+    });
+  });
   return (
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/sign-in" component={SignInPage} />
       <Route exact path="/sign-up" component={SignUpPage} />
-      <Route exact path="/create-article" component={CreateArticlePage} />
-      <Route exact path="/update-article" component={EditArticlePage} />
+      <Route path="/create-article" component={CreateArticlePage} />
+      <Route
+        exact
+        path="/update-article/:articleIndex"
+        component={EditArticlePage}
+      />
       <Route exact path="/my-articles" component={UserArticlesPage} />
       <Route component={ErrorPage} />
     </Switch>
