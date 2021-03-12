@@ -19,7 +19,7 @@ func main() {
 	router.HandleFunc("/get-user-data/{userId}", api.GetUserData).Methods("GET")
 
 	router.HandleFunc("/add-article/{userId}", api.AddArticle).Methods("POST")
-	router.HandleFunc("/update-article/{userId}/{articleId}", api.UpdateArticle).Methods("POST")
+	router.HandleFunc("/update-article/{userId}/{articleId}", api.UpdateArticle).Methods("UPDATE")
 	router.HandleFunc("/remove-article/{userId}/{articleId}", api.RemoveArticle).Methods("DELETE")
 
 	router.HandleFunc("/get-user-articles/{userId}", api.GetUserArticles).Methods("GET")
@@ -29,6 +29,7 @@ func main() {
 
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000", "https://fatmug.vercel.app/"},
+		AllowedMethods: []string{"GET", "POST", "UPDATE", "DELETE"},
 	})
 
 	port := os.Getenv("PORT")
