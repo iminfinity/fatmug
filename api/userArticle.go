@@ -120,8 +120,8 @@ func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 	var articles []models.Article
 	articles = user.Articles
 	index := utils.FindIndexFromId(articleId, articles)
-	user.Articles = append(user.Articles[:index], user.Articles[index+1:]...)
-
+	articles = append(articles[:index], articles[index+1:]...)
+	user.Articles = articles
 	_, err = usersCollection.UpdateOne(ctx, bson.M{"userId": userId}, bson.M{"$set": user})
 	if err != nil {
 		http.Error(rw, "Error updating user", http.StatusInternalServerError)
