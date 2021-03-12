@@ -2,7 +2,7 @@ package models
 
 // Article struct
 type Article struct {
-	ArticleID string `json:"articleId,omitempty" bson:"articleIsd,omitempty"`
+	ArticleID string `json:"articleId,omitempty" bson:"articleId,omitempty"`
 	Writer    string `json:"writer,omitempty" bson:"writer,omitempty"`
 	Heading   string `json:"heading,omitempty" bson:"heading,omitempty"`
 	Content   string `json:"content,omitempty" bson:"content,omitempty"`

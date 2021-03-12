@@ -13,15 +13,18 @@ import (
 
 // GetArticles func
 func GetArticles(rw http.ResponseWriter, r *http.Request) {
+	rw.Header().Add("content-type", "application/json")
 	var articles []models.Article
-	cursor, err := articlesCollection.Find(ctx, bson.D{})
+	cursor, err := articlesCollection.Find(ctx, bson.M{})
 	if err != nil {
 		http.Error(rw, "Error getting articles", http.StatusInternalServerError)
 		fmt.Println("Error getting articles")
 		return
 	}
 	for cursor.Next(ctx) {
-		err = cursor.Decode(&articles[len(articles)-1])
+		var article models.Article
+		err = cursor.Decode(&article)
+		articles = append(articles, article)
 		if err != nil {
 			continue
 		}
@@ -35,11 +38,16 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	}
 	var currentArticles []models.Article
 
-	for i := 0; i <= 10; i++ {
-		currentArticles = append(currentArticles, articles[(pageNumber-1)*10+i])
+	if len(articles) <= 10 {
+		currentArticles = articles
+	} else {
+		for i := 0; i <= 10; i++ {
+			currentArticles = append(currentArticles, articles[(pageNumber-1)*10+i])
+		}
 	}
-
-	json.NewEncoder(rw).Encode(currentArticles)
+	var responseArticles models.CurrentArticles
+	responseArticles.Articles = currentArticles
+	json.NewEncoder(rw).Encode(responseArticles)
 }
 
 // GetPopularArticles func
