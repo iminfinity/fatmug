@@ -50,11 +50,6 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(rw).Encode(responseArticles)
 }
 
-// GetPopularArticles func
-func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(rw, "Hello world")
-}
-
 // GetArticle func
 func GetArticle(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Add("content-type", "application/json")

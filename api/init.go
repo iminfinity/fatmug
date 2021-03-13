@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/jasonlvhit/gocron"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -16,6 +17,7 @@ var ctx context.Context
 var fatmugDatabase *mongo.Database
 var usersCollection *mongo.Collection
 var articlesCollection *mongo.Collection
+var popularArticlesCollection *mongo.Collection
 var err error
 
 func init() {
@@ -39,6 +41,8 @@ func init() {
 	fatmugDatabase = client.Database("fatmug")
 	usersCollection = fatmugDatabase.Collection("users")
 	articlesCollection = fatmugDatabase.Collection("articles")
+	popularArticlesCollection = fatmugDatabase.Collection("popularArticles")
 
 	fmt.Println("MongoDb running")
+	gocron.Every(1).Hours().Do(updatePopularArticles) // After every hour update popular articles
 }
