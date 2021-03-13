@@ -44,5 +44,5 @@ func init() {
 	popularArticlesCollection = fatmugDatabase.Collection("popularArticles")
 
 	fmt.Println("MongoDb running")
-	gocron.Every(1).Hours().Do(updatePopularArticles) // After every hour update popular articles
+	gocron.Every(25).Minutes().Do(updatePopularArticles) // After 25 min update popular articles
 }
