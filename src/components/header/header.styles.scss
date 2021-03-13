@@ -54,4 +54,27 @@
       }
     }
   }
+
+  @media (max-width: 900px) {
+    padding: 0.6rem 0.5rem;
+    .logo-container {
+      column-gap: 0.1rem;
+      h3 {
+        font-size: 1.2rem;
+      }
+      p {
+        font-size: 0.7rem;
+      }
+    }
+
+    .buttons {
+      column-gap: 0.3rem;
+      li {
+        button {
+          font-size: 0.7rem;
+          padding: 0.2rem;
+        }
+      }
+    }
+  }
 }

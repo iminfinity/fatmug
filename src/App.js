@@ -9,9 +9,10 @@ import SignUpPage from "./pages/sign-up/sign-up";
 import CreateArticlePage from "./pages/create-article/create-article";
 import EditArticlePage from "./pages/edit-article/edit-article";
 import UserArticlesPage from "./pages/user-articles/user-articles";
+import ArticlePage from "./pages/article/article";
 import ErrorPage from "./pages/error/error";
 
-import { auth } from "./firabase/utils";
+import { auth } from "./firebase/utils";
 
 function App() {
   const history = useHistory();
@@ -32,6 +33,7 @@ function App() {
         component={EditArticlePage}
       />
       <Route exact path="/my-articles" component={UserArticlesPage} />
+      <Route exact path="/article/:articleId" component={ArticlePage} />
       <Route component={ErrorPage} />
     </Switch>
   );

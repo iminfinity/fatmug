@@ -1,9 +1,11 @@
 import "./home-article.styles.scss";
 import {useEffect, useState} from "react";
-import {storage} from "../../firabase/utils";
+import {storage} from "../../firebase/utils";
+import {useHistory} from "react-router-dom";
 
 const HomeArticle = ({heading, content, articleId, writer}) => {
     const [imageUrl, setImageUrl] = useState("")
+    const history = useHistory()
     useEffect(()=>{
         storage
         .ref(`${writer}/${articleId}`)
@@ -17,7 +19,7 @@ const HomeArticle = ({heading, content, articleId, writer}) => {
         });
     },[writer,articleId])
     return(
-        <div className="home-article">
+        <div className="home-article" onClick={()=>history.push(`/article/${articleId}`)}>
             <div className="pic">
                 <img src={imageUrl} alt=""/>
             </div>

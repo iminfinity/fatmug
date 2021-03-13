@@ -6,8 +6,12 @@
     padding: 0.2rem 0;
     font-size: 2rem;
   }
-  div {
-    margin-top: 1.25rem;
-    border-right: 2px solid gray;
+
+  @media (max-width: 900px) {
+    padding: 0.2rem 0.3rem;
+    h4 {
+      padding: 0.1rem 0;
+      font-size: 0.9rem;
+    }
   }
 }

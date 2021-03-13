@@ -1,0 +1,28 @@
+.popular-article {
+  margin-top: 1.25rem;
+  border-right: 2px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    img {
+      width: 80%;
+    }
+    h6 {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    display: grid;
+    grid-template-columns: 40% 60%;
+  }
+}

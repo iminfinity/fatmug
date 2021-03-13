@@ -1,12 +1,10 @@
 import "./user-articles.styles.scss";
 import {useUserData} from "../../data/user.context";
-import Article from "./article/article.component";
+import Article from "../../components/user-article/user-article.component";
 import Header from "../../components/header/header.component";
 
 const UserArticlesPage = () => {
     const {articles} = useUserData()
-    console.log(articles)
-    
     return (
         <>
         <Header />

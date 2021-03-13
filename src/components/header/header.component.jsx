@@ -1,25 +1,30 @@
 import "./header.styles.scss";
 import {useLocation, useHistory} from "react-router-dom";
 import { useUserData } from "../../data/user.context";
-
+import { useAlert } from "react-alert";
+import {auth} from "../../firebase/utils"
 const Header = ({effect, buttonText}) => {
-    const {firstName, lastName,signedIn} = useUserData()
+    const {firstName,signedIn} = useUserData()
     const location = useLocation()
     const history = useHistory()
-    
+    const alert = useAlert()
     const showButton = () => {
-        switch(location.pathname){
-            case "/create-article": return (
-                    <button className="write" onClick={effect}>{buttonText}</button>
-                )
-            case "/":
-            case "/my-articles": return (
-                <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
+        const loca = location.pathname.split("/")
+        switch(loca[1]){
+            case "create-article":
+            case "update-article": return (
+                <button className="write" onClick={effect}>{buttonText}</button>
             )
             default: return (
-                <button className="write" onClick={effect}>{buttonText}</button>
+                <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
             )   
         }
+    }   
+    
+    const logout = () => {
+        auth()
+            .signOut()
+            .then(() => alert.show("SignOut"));
     }
 
     return (
@@ -28,7 +33,7 @@ const Header = ({effect, buttonText}) => {
                <h3 onClick={()=>history.push("/")}>Fatmug |</h3>
                {
                    signedIn ? (
-                     <p>Greetings! {firstName} {lastName}</p>  
+                     <p>Greetings! {firstName}</p>  
                    ): null
                }
                 
@@ -37,15 +42,6 @@ const Header = ({effect, buttonText}) => {
                 <li>
                     {
                         showButton()
-                        // location.pathname === "/create-article" ? (
-                        //     <button className="write" onClick={effect}>{buttonText}</button>
-                        // ):(
-                        //     location.pathname === "/" ? (
-                        //         <button className="write" onClick={()=>history.push("/create-article")}>Write</button>
-                        //     ):(
-                        //         <button className="write" onClick={effect}>{buttonText}</button>
-                        //     )
-                        // )
                     }
                 </li>
                 <li>
@@ -54,7 +50,7 @@ const Header = ({effect, buttonText}) => {
                 <li>
                     {
                         signedIn ? (
-                            <button className="logout">Logout</button>
+                            <button className="logout" onClick={logout}>Logout</button>
                         ): (
                             <button className="logout">Signin</button>
                         )

@@ -1,0 +1,17 @@
+.error-page {
+  height: 100vh;
+  //   background-color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  h1 {
+    font-weight: 400;
+    font-size: 1.6rem;
+  }
+  img {
+    width: 100px;
+    height: 80px;
+  }
+}

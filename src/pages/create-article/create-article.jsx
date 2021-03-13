@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router";
+import { useState, useRef} from "react";
 import Header from "../../components/header/header.component";
 import { useUserData } from "../../data/user.context";
 import "./create-article.styles.scss";
@@ -8,12 +7,11 @@ import { useAlert } from "react-alert";
 import FormInput from "../../components/form-input/form-input.component";
 import ImageUploader from "../../components/image-upload/image-upload.component";
 const CreateArticlePage = () => {
-    const {addNewArticle, uploadImage, articles} = useUserData()
+    const {addNewArticle, uploadImage} = useUserData()
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const uploadRef = useRef()
     const [imageSrc, setImageSrc] = useState("")
-    const location = useLocation()
     const alert = useAlert()
  
     const handleFile = () => {

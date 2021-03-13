@@ -1,0 +1,19 @@
+.pagination {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.25rem;
+  * {
+    color: #101010 !important;
+  }
+  .item-class {
+    padding: 0.4rem;
+  }
+  .active {
+    border: 2px solid black;
+  }
+  a {
+    text-decoration: none;
+  }
+}

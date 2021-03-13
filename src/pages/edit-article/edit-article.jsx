@@ -10,6 +10,8 @@ const EditArticlePage = () => {
     const [description, setDescription] = useState("")
     const alert = useAlert()
     const {articleIndex} = useParams()
+    const [firstTime, setFirstTime] = useState(false)
+
     const saveUpadatedArticle = () => {
         updateArticle(title,description,articleIndex)
         setDescription("")
@@ -17,11 +19,14 @@ const EditArticlePage = () => {
         alert.show("Article updated")
     }
     useEffect(()=>{
-        if(articles.length > 0){
-            setTitle(articles[articleIndex].heading)
-            setDescription(articles[articleIndex].content)  
+        if (!firstTime){
+            if(articles.length > 0){
+                setTitle(articles[articleIndex].heading)
+                setDescription(articles[articleIndex].content)  
+                setFirstTime(true)
+            }
         }
-    },[articleIndex, articles])
+    },[articleIndex, articles, firstTime])
     return (
         <>
             <Header  effect={saveUpadatedArticle} buttonText="update" />

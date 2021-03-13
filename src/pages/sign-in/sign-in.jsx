@@ -1,11 +1,11 @@
 import "./sign-in.styles.scss";
 
-import {useState, useEffect} from "react";
+import {useState} from "react";
 
 import {ReactComponent as Key} from "../../assets/key.svg";
 import {ReactComponent as User} from "../../assets/user.svg";
 
-import {signin} from "../../firabase/utils";
+import {signin} from "../../firebase/utils";
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 const SignInPage = () => {

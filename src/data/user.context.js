@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
-import { auth, storage } from "../firabase/utils";
-import { v4 as uuidv4 } from "uuid";
+import { auth, storage } from "../firebase/utils";
+
 const UserContext = createContext();
 
 export const useUserData = () => {
@@ -15,6 +15,8 @@ const UserContextProvider = ({ children }) => {
   const [lastName, setLastName] = useState("");
   const [userId, setUserId] = useState("");
   const [articles, setArticles] = useState([]);
+  const [popularArticlesInfo, setPopularArticlesInfo] = useState([]);
+
   const alert = useAlert();
   useEffect(() => {
     auth().onAuthStateChanged((user) => {
@@ -22,6 +24,7 @@ const UserContextProvider = ({ children }) => {
         setSignedIn(true);
         if (userId === "") {
           getUserData(user.uid);
+          getPopularArticlesInfo();
         }
       }
     });
@@ -29,7 +32,7 @@ const UserContextProvider = ({ children }) => {
 
   const getUserData = (uid) => {
     axios
-      .get(`https://floating-bayou-25144.herokuapp.com/get-user-data//${uid}`)
+      .get(`https://floating-bayou-25144.herokuapp.com/get-user-data/${uid}`)
       .then((response) => {
         const data = response.data;
         setFirstName(data.firstName);
@@ -56,12 +59,14 @@ const UserContextProvider = ({ children }) => {
       writer: userId,
       articleId: articleId,
     };
-    axios.post(
-      `https://floating-bayou-25144.herokuapp.com/add-article/${userId}`,
-      article
-    );
-
-    getUserArticles();
+    axios
+      .post(
+        `https://floating-bayou-25144.herokuapp.com/add-article/${userId}`,
+        article
+      )
+      .then(() => {
+        getUserArticles();
+      });
   };
 
   const updateArticle = (title, description, articleIndex) => {
@@ -70,12 +75,14 @@ const UserContextProvider = ({ children }) => {
     updatedArticle.heading = title;
     updatedArticle.content = description;
 
-    axios.post(
-      `https://floating-bayou-25144.herokuapp.com/update-article/${userId}/${articleId}`,
-      updatedArticle
-    );
-
-    getUserArticles();
+    axios
+      .post(
+        `https://floating-bayou-25144.herokuapp.com/update-article/${userId}/${articleId}`,
+        updatedArticle
+      )
+      .then(() => {
+        getUserArticles();
+      });
   };
 
   const deleteArticle = (articleId) => {
@@ -86,12 +93,11 @@ const UserContextProvider = ({ children }) => {
       )
       .then(() => {
         alert.show("Deleted");
+        getUserArticles();
       })
       .catch((error) => {
         console.log(error.message);
       });
-
-    getUserArticles();
   };
 
   const uploadImage = (source, articleId) => {
@@ -104,12 +110,21 @@ const UserContextProvider = ({ children }) => {
       .catch((error) => console.log(error.message));
   };
 
+  const getPopularArticlesInfo = () => {
+    axios
+      .get(`https://floating-bayou-25144.herokuapp.com/get-popular-articles`)
+      .then((response) => {
+        setPopularArticlesInfo(response.data.currentArticles);
+      });
+  };
+
   const value = {
     signedIn,
     firstName,
     lastName,
     userId,
     articles,
+    popularArticlesInfo,
     addNewArticle,
     updateArticle,
     deleteArticle,

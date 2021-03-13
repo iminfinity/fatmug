@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import HomeArticle from "../home-article/home-article.component";
+import Pagination from "../pagination/pagination.component";
 import "./articles.styles.scss";
 
 const Articles = () => {
@@ -10,14 +11,18 @@ const Articles = () => {
         axios
         .get(`https://floating-bayou-25144.herokuapp.com/get-articles/${pageNumber}`)
         .then((response)=>{
-            setCurrentArticles(response.data.currentArticles)
+            setCurrentArticles(response.data.currentArticles.reverse())
             console.log(response.data.currentArticles)
         })
     },[pageNumber])
+
+    const updatePageNumber = (newPageNumber) => {
+        setPageNumber(newPageNumber)
+    }
     return(
         <section className="articles">
             {
-                currentArticles.length > 1 ? (
+                currentArticles ?  (
                     currentArticles.map((article)=>(
                         <HomeArticle 
                             heading={article.heading}
@@ -29,6 +34,7 @@ const Articles = () => {
                     ))
                 ) : null
             }
+            <Pagination pageNumber={pageNumber} updatePageNumber={updatePageNumber} />
         </section>
     )
 }

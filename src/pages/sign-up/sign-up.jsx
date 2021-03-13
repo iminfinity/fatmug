@@ -1,7 +1,7 @@
 import "./sign-up.styles.scss";
 
 import {useState} from "react";
-import {signup, auth} from "../../firabase/utils";
+import {signup, auth} from "../../firebase/utils";
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
 import axios from "axios";
