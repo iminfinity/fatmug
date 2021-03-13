@@ -11,19 +11,23 @@ import (
 
 // GetPopularArticles func
 func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
-	var popular models.CurrentArticles
+	var popular [4]models.PopularArticles
 	cursor, err := popularArticlesCollection.Find(ctx, bson.M{})
 	if err != nil {
 		http.Error(rw, "Error getting popular articles", http.StatusInternalServerError)
 		fmt.Println("Error getting popular article")
 	}
+	index := 0
 	for cursor.Next(ctx) {
-		var article models.Article
-		err = cursor.Decode(&article)
+		if index >= 4 {
+			break
+		}
+		var popularArticle models.PopularArticles
+		err = cursor.Decode(&popularArticle)
 		if err != nil {
 			continue
 		}
-		popular.Articles = append(popular.Articles, article)
+		popular[index] = popularArticle
 	}
 
 	json.NewEncoder(rw).Encode(popular)
