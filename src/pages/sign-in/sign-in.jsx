@@ -33,6 +33,7 @@ const SignInPage = () => {
                         value={email}
                         onChange={(event)=> setEmail(event.target.value)}
                         placeholder="Email"
+                        required
                     />
                     <User />
                 </div>
@@ -42,7 +43,8 @@ const SignInPage = () => {
                         type="password" 
                         value={password}
                         onChange={(event)=> setPassword(event.target.value)} 
-                        placeholder="Password"               
+                        placeholder="Password" 
+                        required              
                     />
                     <Key />
                 </div>
