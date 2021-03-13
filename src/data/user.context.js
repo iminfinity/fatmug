@@ -39,6 +39,9 @@ const UserContextProvider = ({ children }) => {
         setLastName(data.lastName);
         setUserId(data.userId);
         setArticles(data.articles);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
@@ -49,6 +52,9 @@ const UserContextProvider = ({ children }) => {
       )
       .then((response) => {
         setArticles(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
@@ -66,6 +72,9 @@ const UserContextProvider = ({ children }) => {
       )
       .then(() => {
         getUserArticles();
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
@@ -82,6 +91,9 @@ const UserContextProvider = ({ children }) => {
       )
       .then(() => {
         getUserArticles();
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
@@ -115,6 +127,9 @@ const UserContextProvider = ({ children }) => {
       .get(`https://floating-bayou-25144.herokuapp.com/get-popular-articles`)
       .then((response) => {
         setPopularArticlesInfo(response.data.currentArticles);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
