@@ -38,12 +38,11 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	}
 	var currentArticles []models.Article
 
-	if len(articles) <= 10 {
-		currentArticles = articles
-	} else {
-		for i := 0; i <= 10; i++ {
-			currentArticles = append(currentArticles, articles[(pageNumber-1)*10+i])
+	for i := 0; i <= 10; i++ {
+		if (pageNumber-1)*10+i == len(articles) {
+			break
 		}
+		currentArticles = append(currentArticles, articles[(pageNumber-1)*10+i])
 	}
 	var responseArticles models.CurrentArticles
 	responseArticles.Articles = currentArticles
@@ -53,4 +52,20 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 // GetPopularArticles func
 func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(rw, "Hello world")
+}
+
+// GetArticle func
+func GetArticle(rw http.ResponseWriter, r *http.Request) {
+	rw.Header().Add("content-type", "application/json")
+	var article models.Article
+	params := mux.Vars(r)
+	articleId := params["articleId"]
+	err = articlesCollection.FindOne(ctx, bson.M{"articleId": articleId}).Decode(&article)
+	if err != nil {
+		http.Error(rw, "Error getting article", http.StatusInternalServerError)
+		fmt.Println("Error getting article")
+		return
+	}
+
+	json.NewEncoder(rw).Encode(article)
 }

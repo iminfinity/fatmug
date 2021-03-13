@@ -10,4 +10,5 @@ type Article struct {
 	ImageURL  string `json:"imageURL,omitempty" bson:"imageURL,omitempty"`
 	CreatedAt string `json:"createdAt,omitempty" bson:"createdAt,omitempty"`
 	ReadTime  int    `json:"readTime,omitempty" bson:"readTime,omitempty"`
+	ViewCount int    `json:"viewCount,omitempty" bson:"viewCount,omitempty"`
 }

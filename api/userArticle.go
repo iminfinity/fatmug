@@ -100,7 +100,7 @@ func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error updating user")
 		return
 	}
-
+	go UpdateArticleOnDB(updatedArticle)
 	fmt.Fprintf(rw, "Article updated")
 	fmt.Println("Article updated")
 }
@@ -129,7 +129,7 @@ func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error updating user")
 		return
 	}
-
+	go DeleteArticleOnDB(articleId)
 	fmt.Fprintf(rw, "Article Removed")
 	fmt.Println("Article Removed")
 }
