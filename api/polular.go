@@ -11,6 +11,7 @@ import (
 
 // GetPopularArticles func
 func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
+	rw.Header().Add("content-type", "application/json")
 	var popular [4]models.PopularArticles
 	cursor, err := popularArticlesCollection.Find(ctx, bson.M{})
 	if err != nil {
