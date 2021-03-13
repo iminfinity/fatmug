@@ -30,8 +30,9 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 		}
 		popular[index] = popularArticle
 	}
-
-	json.NewEncoder(rw).Encode(popular)
+	var currentPopularArticle models.CurrentPopularArticles
+	currentPopularArticle.CurrentArticles = popular
+	json.NewEncoder(rw).Encode(currentPopularArticle)
 	fmt.Println("Success getting popular articles")
 }
 

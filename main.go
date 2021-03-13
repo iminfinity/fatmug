@@ -30,6 +30,8 @@ func main() {
 
 	router.HandleFunc("/update-view-count/{articleId}", api.UpdateViewCount).Methods("POST")
 
+	router.HandleFunc("/get-total-articles-count", api.GetTotalArticlesCount).Methods("Get")
+
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000", "https://fatmug.vercel.app/"},
 		AllowedMethods: []string{"GET", "POST", "DELETE"},

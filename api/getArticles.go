@@ -48,6 +48,8 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	var responseArticles models.CurrentArticles
 	responseArticles.Articles = currentArticles
 	json.NewEncoder(rw).Encode(responseArticles)
+
+	fmt.Println("Get articles sucess")
 }
 
 // GetArticle func
@@ -64,4 +66,20 @@ func GetArticle(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(rw).Encode(article)
+	fmt.Println("Get article sucess")
+}
+
+// GetTotalArticlesCount func
+func GetTotalArticlesCount(rw http.ResponseWriter, r *http.Request) {
+	total, err := articlesCollection.CountDocuments(ctx, bson.M{})
+	if err != nil {
+		http.Error(rw, "Error getting articles count", http.StatusInternalServerError)
+		fmt.Println("Error getting articles count")
+		return
+	}
+	var totalArticlesCount models.TotalArticlesCount
+	totalArticlesCount.Total = total
+
+	json.NewEncoder(rw).Encode(totalArticlesCount)
+	fmt.Println("Get articles count sucess")
 }
