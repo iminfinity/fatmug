@@ -38,6 +38,7 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	}
 	var currentArticles []models.Article
 
+	// will use mongo provided methods
 	for i := 0; i <= 10; i++ {
 		if (pageNumber-1)*10+i == len(articles) {
 			break

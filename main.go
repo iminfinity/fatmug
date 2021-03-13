@@ -24,6 +24,7 @@ func main() {
 
 	router.HandleFunc("/get-user-articles/{userId}", api.GetUserArticles).Methods("GET")
 
+	router.HandleFunc("/get-article/{articleId}", api.GetArticle).Methods("GET")
 	router.HandleFunc("/get-articles/{pageNumber}", api.GetArticles).Methods("GET")
 	router.HandleFunc("/get-popular-articles", api.GetPopularArticles).Methods("GET")
 
