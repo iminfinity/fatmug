@@ -50,6 +50,7 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(rw).Encode(responseArticles)
 
 	fmt.Println("Get articles success")
+	go updatePopularArticles()
 }
 
 // GetArticle func

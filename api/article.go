@@ -61,6 +61,7 @@ func UpdateViewCount(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	go updatePopularArticles()
 	fmt.Fprintf(rw, "View Count updated")
 	fmt.Println("View count updated")
 }
