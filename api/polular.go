@@ -21,7 +21,6 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	index := 0
-	fmt.Println(cursor)
 	for cursor.Next(ctx) {
 		if index >= 4 {
 			break
@@ -31,7 +30,6 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			continue
 		}
-		fmt.Println(popularArticle)
 		popular[index] = popularArticle
 	}
 	var currentPopularArticle models.CurrentPopularArticles
@@ -51,7 +49,7 @@ func updatePopularArticles() {
 		return
 	}
 	cursor, err := articlesCollection.Find(ctx, bson.M{})
-	var mostPolular [4]models.PopularArticles
+	var mostPopular [4]models.PopularArticles
 	count := 0
 	for cursor.Next(ctx) {
 		var currentArticle models.Article
@@ -63,34 +61,37 @@ func updatePopularArticles() {
 			var popular models.PopularArticles
 			popular.ArticleId = currentArticle.ArticleID
 			popular.ViewCount = currentArticle.ViewCount
-			mostPolular[count] = popular
+			mostPopular[count] = popular
 			count++
 			continue
 		}
-		checkIfMaxThenUpdate(mostPolular, currentArticle.ViewCount, currentArticle.ArticleID)
+		checkIfMaxThenUpdate(mostPopular, currentArticle.ViewCount, currentArticle.ArticleID)
 	}
-
-	saveMostPolularArtiles(mostPolular)
+	saveMostPopularArtiles(mostPopular)
 }
 
-func checkIfMaxThenUpdate(mostPolular [4]models.PopularArticles, currentViewCount int, currentArticleId string) {
-	for index, item := range mostPolular {
-		if item.ViewCount > currentViewCount {
-			mostPolular[index].ArticleId = currentArticleId
-			mostPolular[index].ViewCount = currentViewCount
-			break
+func checkIfMaxThenUpdate(mostPopular [4]models.PopularArticles, currentViewCount int, currentArticleId string) {
+	for index, item := range mostPopular {
+		if currentViewCount >= item.ViewCount {
+			if currentArticleId == item.ArticleId {
+				mostPopular[index].ViewCount = currentViewCount
+			} else {
+				mostPopular[index].ArticleId = currentArticleId
+				mostPopular[index].ViewCount = currentViewCount
+			}
 		}
 	}
 }
 
-func saveMostPolularArtiles(mostPolular [4]models.PopularArticles) {
+func saveMostPopularArtiles(mostPopular [4]models.PopularArticles) {
 	err = popularArticlesCollection.Drop(ctx)
 	if err != nil {
 		fmt.Println("Error dropping collection")
 	}
 	// should use Collection.InsertMany()
-	for _, item := range mostPolular {
+	for _, item := range mostPopular {
 		_, err = popularArticlesCollection.InsertOne(ctx, item)
+		fmt.Println(item.ViewCount)
 		if err != nil {
 			continue
 		}
