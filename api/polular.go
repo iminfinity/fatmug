@@ -61,6 +61,10 @@ func updatePopularArticles() {
 			popular.ViewCount = currentArticle.ViewCount
 			mostPolular[count] = popular
 			count++
+			if total <= 4 && count == 4 {
+				saveMostPolularArtiles(mostPolular)
+				return
+			}
 			continue
 		}
 		checkIfMaxThenUpdate(mostPolular, currentArticle.ViewCount, currentArticle.ArticleID)
