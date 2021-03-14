@@ -37,21 +37,30 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 }
 
 func updatePopularArticles() {
-	count, err := articlesCollection.CountDocuments(ctx, bson.M{})
+	total, err := articlesCollection.CountDocuments(ctx, bson.M{})
 	if err != nil {
 		fmt.Println("Error counting documents")
 		return
 	}
-	if count <= 4 {
+	if total <= 4 {
 		fmt.Println("Too Few articles")
 		return
 	}
 	cursor, err := articlesCollection.Find(ctx, bson.M{})
 	var mostPolular [4]models.PopularArticles
+	count := 0
 	for cursor.Next(ctx) {
 		var currentArticle models.Article
 		err = cursor.Decode(&currentArticle)
 		if err != nil {
+			continue
+		}
+		if count < 4 {
+			var popular models.PopularArticles
+			popular.ArticleId = currentArticle.ArticleID
+			popular.ViewCount = currentArticle.ViewCount
+			mostPolular[count] = popular
+			count++
 			continue
 		}
 		checkIfMaxThenUpdate(mostPolular, currentArticle.ViewCount, currentArticle.ArticleID)
@@ -65,6 +74,7 @@ func checkIfMaxThenUpdate(mostPolular [4]models.PopularArticles, currentViewCoun
 		if item.ViewCount > currentViewCount {
 			mostPolular[index].ArticleId = currentArticleId
 			mostPolular[index].ViewCount = currentViewCount
+			break
 		}
 	}
 }
