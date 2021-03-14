@@ -22,15 +22,13 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 	}
 	index := 0
 	for cursor.Next(ctx) {
-		if index >= 4 {
-			break
-		}
 		var popularArticle models.PopularArticles
 		err = cursor.Decode(&popularArticle)
 		if err != nil {
 			continue
 		}
 		popular[index] = popularArticle
+		index++
 	}
 	var currentPopularArticle models.CurrentPopularArticles
 	currentPopularArticle.CurrentArticles = popular
