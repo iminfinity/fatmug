@@ -13,14 +13,23 @@ import ArticlePage from "./pages/article/article";
 import ErrorPage from "./pages/error/error";
 
 import { auth } from "./firebase/utils";
-
+import { useUserData } from "./data/user.context";
 function App() {
   const history = useHistory();
+  const { userId, getUserData } = useUserData();
   useEffect(() => {
     auth().onAuthStateChanged((user) => {
-      if (!user) history.push("/sign-in");
+      if (!user) {
+        history.push("/sign-in");
+      }
+      if (user) {
+        if (userId) {
+          getUserData(userId);
+        }
+      }
     });
-  });
+  }, [getUserData, history, userId]);
+
   return (
     <Switch>
       <Route exact path="/" component={HomePage} />

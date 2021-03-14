@@ -2,10 +2,13 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import { storage } from "../../firebase/utils";
 
+import "./popular-article.styles.scss";
+import { useHistory } from "react-router";
+
 const PopularArticle = ({articleId}) => {
     const [article, setArticle] = useState({})
     const [imageUrl, setImageUrl] = useState("")
-     
+     const history = useHistory()
     useEffect(()=>{
         axios
         .get(`https://floating-bayou-25144.herokuapp.com/get-article/${articleId}`)
@@ -26,8 +29,8 @@ const PopularArticle = ({articleId}) => {
         }
     }, [article])
     return (
-        <div className="popular-article">
-            <div>
+        <div className="popular-article" onClick={()=> history.push(`/article/${articleId}`)}>
+            <div className="thumb">
                 <img src={imageUrl} alt=""/>
             </div>
             <div>

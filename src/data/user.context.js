@@ -145,6 +145,7 @@ const UserContextProvider = ({ children }) => {
     deleteArticle,
     getUserArticles,
     uploadImage,
+    getUserData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

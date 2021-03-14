@@ -8,6 +8,7 @@ const ImageUploader = ({uploadRef, handleFile, imageSrc}) => {
                     ref={uploadRef}
                     onChange={handleFile}
                     multiple={false}
+                    accept="image/*"
                 />
             </div>
             <div>

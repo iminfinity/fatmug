@@ -1,12 +1,13 @@
 .popular {
   padding: 0.4rem 0.5rem;
+
   h4 {
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
     padding: 0.2rem 0;
     font-size: 2rem;
   }
-
+  overflow: hidden;
   @media (max-width: 900px) {
     padding: 0.2rem 0.3rem;
     h4 {
