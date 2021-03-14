@@ -59,16 +59,16 @@ func updatePopularArticles() {
 		if err != nil {
 			continue
 		}
+		if total <= 4 && count == 4 {
+			saveMostPolularArtiles(mostPolular)
+			return
+		}
 		if count < 4 {
 			var popular models.PopularArticles
 			popular.ArticleId = currentArticle.ArticleID
 			popular.ViewCount = currentArticle.ViewCount
 			mostPolular[count] = popular
 			count++
-			if total <= 4 && count == 4 {
-				saveMostPolularArtiles(mostPolular)
-				return
-			}
 			continue
 		}
 		checkIfMaxThenUpdate(mostPolular, currentArticle.ViewCount, currentArticle.ArticleID)
