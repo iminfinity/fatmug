@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/jasonlvhit/gocron"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -44,5 +43,4 @@ func init() {
 	popularArticlesCollection = fatmugDatabase.Collection("popularArticles")
 
 	fmt.Println("MongoDb running")
-	gocron.Every(1).Minutes().Do(updatePopularArticles) // After 25 min update popular articles
 }

@@ -101,6 +101,7 @@ func UpdateArticle(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	go UpdateArticleOnDB(updatedArticle)
+	go updatePopularArticles()
 	fmt.Fprintf(rw, "Article updated")
 	fmt.Println("Article updated")
 }
@@ -130,6 +131,7 @@ func RemoveArticle(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	go DeleteArticleOnDB(articleId)
+	go updatePopularArticles()
 	fmt.Fprintf(rw, "Article Removed")
 	fmt.Println("Article Removed")
 }

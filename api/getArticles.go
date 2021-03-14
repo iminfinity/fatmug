@@ -49,7 +49,7 @@ func GetArticles(rw http.ResponseWriter, r *http.Request) {
 	responseArticles.Articles = currentArticles
 	json.NewEncoder(rw).Encode(responseArticles)
 
-	fmt.Println("Get articles sucess")
+	fmt.Println("Get articles success")
 }
 
 // GetArticle func
@@ -66,7 +66,7 @@ func GetArticle(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(rw).Encode(article)
-	fmt.Println("Get article sucess")
+	fmt.Println("Get article success")
 }
 
 // GetTotalArticlesCount func
@@ -81,5 +81,5 @@ func GetTotalArticlesCount(rw http.ResponseWriter, r *http.Request) {
 	totalArticlesCount.Total = total
 
 	json.NewEncoder(rw).Encode(totalArticlesCount)
-	fmt.Println("Get articles count sucess")
+	fmt.Println("Get articles count success")
 }

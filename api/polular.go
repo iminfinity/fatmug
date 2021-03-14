@@ -13,12 +13,15 @@ import (
 func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Add("content-type", "application/json")
 	var popular [4]models.PopularArticles
+
 	cursor, err := popularArticlesCollection.Find(ctx, bson.M{})
 	if err != nil {
 		http.Error(rw, "Error getting popular articles", http.StatusInternalServerError)
 		fmt.Println("Error getting popular article")
+		return
 	}
 	index := 0
+	fmt.Println(cursor)
 	for cursor.Next(ctx) {
 		if index >= 4 {
 			break
@@ -28,6 +31,7 @@ func GetPopularArticles(rw http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			continue
 		}
+		fmt.Println(popularArticle)
 		popular[index] = popularArticle
 	}
 	var currentPopularArticle models.CurrentPopularArticles
