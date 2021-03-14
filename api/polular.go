@@ -59,10 +59,6 @@ func updatePopularArticles() {
 		if err != nil {
 			continue
 		}
-		if total <= 4 && count == 4 {
-			saveMostPolularArtiles(mostPolular)
-			return
-		}
 		if count < 4 {
 			var popular models.PopularArticles
 			popular.ArticleId = currentArticle.ArticleID
